@@ -42,8 +42,8 @@ EMPEROR_LOGO_BANNER = ("""
 \033[0m
 \033[97;1m AUTHOR:\033[0m \033[91m@Император Сидий\033[0m
 \033[97;1m VERSION:\033[0m \033[91m1.0.0\033[0m \033[97;1m[BETA]\033[0m
-\033[97;1m GITHUB:\033[0m \033[91mhttps://github.com/Sidius999\033[0m
-\033[97;1m DISCORD:\033[0m \033[91msidius.sith_\033[0m
+\033[97;1m GITHUB:\033[0m \033[91mhttps://github.com/Empereur-Sidius\033[0m
+\033[97;1m DISCORD:\033[0m \033[91memperor.sidius_\033[0m
 """)
 
 EMPEROR_MENU_BANNER = ("""
@@ -304,20 +304,3 @@ def EMPEROR():
            os._exit(0)
     
 EMPEROR()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
