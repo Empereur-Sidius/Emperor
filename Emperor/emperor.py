@@ -289,7 +289,7 @@ def EMPEROR():
         if EMPEROR_INPUT == "banner":
            print(" \033[97;1m[\033[38;5;208m...\033[0m] Display the [Emperor] software banner...\033[0m")
            time.sleep(2)
-           TEXT_DELAY(DRAC_LOGO_BANNER, 0.0005)
+           TEXT_DELAY(EMPEROR_LOGO_BANNER, 0.0005)
            time.sleep(5)
            EMPEROR()
            
